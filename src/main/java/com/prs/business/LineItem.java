@@ -4,14 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class LineItem {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)//database increments the id by 1
 	private int id;
+	@ManyToOne 
+	@JoinColumn(name="RequestId")
 	private Request request;
-	private int productId;
+	@ManyToOne
+	@JoinColumn(name="ProductId")
+	private Product product;
 	private int quantity;
 	
 
@@ -20,11 +26,11 @@ public class LineItem {
 	}
 
 
-	public LineItem(int id, Request request, int productId, int quantity) {
+	public LineItem(int id, Request request, Product product, int quantity) {
 		super();
 		this.id = id;
 		this.request = request;
-		this.productId = productId;
+		this.product = product;
 		this.quantity = quantity;
 	}
 
@@ -49,13 +55,13 @@ public class LineItem {
 	}
 
 
-	public int getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProductId(Product product) {
+		this.product = product;
 	}
 
 
@@ -71,7 +77,7 @@ public class LineItem {
 
 	@Override
 	public String toString() {
-		return "LineItem [id=" + id + ", requestId=" + request + ", productId=" + productId + ", quantity=" + quantity
+		return "LineItem [id=" + id + ", requestId=" + request + ", productId=" + product + ", quantity=" + quantity
 				+ "]";
 	}
 	public String displayLineItem() {
@@ -80,7 +86,7 @@ public class LineItem {
 		str += "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-\n";
 		str += "ID:\t\t\t " + id + "\n";
 		str += "Request Id:\t\t " + request + "\n";
-		str += "Product Id:\t\t " + productId + "\n";
+		str += "Product Id:\t\t " + product + "\n";
 		str += "Quantity:\t\t " + quantity + "\n";
 		str += "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n";
 		

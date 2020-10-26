@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -51,17 +52,11 @@ public class LineItemController {
 					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Item Not Found");
 				}
 			}
-			@GetMapping("/{reqId}")
-			public Optional<Request> getRequestsById(@PathVariable int id){
-				Optional <Request> r = requestRepo.findById(id);
-				if (r.isPresent()) {
-					return r;
-				}
-				else {
-					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Request Not Found");
-
-				}
+			@GetMapping("/for-req/{id}:")
+			public List<LineItem> getLinesForPR(@PathVariable int id) {
+				return lineItemRepo.findAllByRequestId(id);
 			}
+
 // add all LineItems
 			@PostMapping("/{reqId}")
 			public LineItem addRequestIdLineItem(@RequestBody LineItem li) { //in the incoming request there is a body(Request)
