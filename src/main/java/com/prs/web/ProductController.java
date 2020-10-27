@@ -2,6 +2,7 @@ package com.prs.web;
 
 import java.util.List;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ProductController {
 			}
 	// add all Products
 			@PostMapping("/")
-			public Product addProduct(@RequestBody Product pp) { //in the incoming request there is a body(Product)
+			public Product addProduct(@RequestBody Product pp) {   //in the incoming request there is a body(Product)
 				return productRepo.save(pp);
 			}
 			

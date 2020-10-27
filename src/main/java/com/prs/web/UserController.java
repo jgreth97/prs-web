@@ -21,50 +21,52 @@ import org.springframework.web.server.ResponseStatusException;
 import com.prs.business.User;
 import com.prs.db.UserRepo;
 
-	@CrossOrigin
-	@RestController
-	@RequestMapping("/api/users")
+@CrossOrigin
+@RestController
+@RequestMapping("/api/users")
 	public class UserController {	
 		@Autowired
 		private UserRepo userRepo;
 		
-	//get user by username and password
+//get user by username and password
 	@GetMapping("/{username}/{password}")
-		public User getUsernameAndPassword(@RequestParam String username, String password) {
+		public User getUsernameAndPassword(@PathVariable String username, String password) {
 			return userRepo.findByUserNameAndPassword(username, password);
 				}
 	
-		// list all Users
-				@GetMapping("/")
-				public List<User> getallUsers() {
-					return userRepo.findAll();
+// list all Users
+	@GetMapping("/")
+		public List<User> getallUsers(@PathVariable int id) {
+			return userRepo.findAll();
 			}
-		// add all Users
-				@PostMapping("/")
-				public User addUser(@RequestBody User uu) { //in the incoming request there is a body(User)
-					return userRepo.save(uu);
-				}
-				
-		// get User by id
-				@GetMapping("/{id}")
-				public Optional<User> getUser(@PathVariable int id) {
-					Optional<User> uu = userRepo.findById(id);
-					if (uu.isPresent()) {
-						return uu;
+	
+// get User by id
+	@GetMapping("/{id}")
+		public Optional<User> getUser(@PathVariable int id) {
+			Optional<User> uu = userRepo.findById(id);
+				if (uu.isPresent()) {
+					return uu;
 						}
-						else {
-							throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
+				else {
+					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
 						}
 				}
-		//update a User(put)
-				@PutMapping("/")
-				public User updateUser(@RequestBody User uu) { //in the incoming request there is a body(User)
-					return userRepo.save(uu);
+// add all Users
+	@PostMapping("/")
+		public User addUser(@RequestBody User uu) { //in the incoming request there is a body(User)
+			return userRepo.save(uu);
 				}
-		//delete a User
-				@DeleteMapping("/{id}")
-				public Optional<User> deleteUser(@PathVariable int id) { //in the incoming request there is a body(User)
-				Optional<User> uu = userRepo.findById(id); 
+	
+//update a User(put)
+	@PutMapping("/")
+		public User updateUser(@RequestBody User uu,@PathVariable int id) { //in the incoming request there is a body(User)
+			return userRepo.save(uu);
+				}
+	
+//delete a User
+	@DeleteMapping("/{id}")
+		public Optional<User> deleteUser(@PathVariable int id) { //in the incoming request there is a body(User)
+			Optional<User> uu = userRepo.findById(id); 
 				if (uu.isPresent()) {
 					userRepo.deleteById(id);;
 					}

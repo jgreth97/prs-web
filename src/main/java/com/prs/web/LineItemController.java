@@ -2,6 +2,7 @@ package com.prs.web;
 
 import java.util.List;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.prs.business.LineItem;
+import com.prs.business.Product;
 import com.prs.business.Request;
 
 import com.prs.db.LineItemRepo;
@@ -126,7 +128,7 @@ public class LineItemController {
 				List<LineItem> liList = lineItemRepo.findAllByRequestId(r.getId());
 					double total = 0.0;
 					for(LineItem li: liList) {
-						total += li.getQuantity();
+						total += li.getProduct().getPrice() * li.getQuantity();
 					}
 					r.setTotal(total);
 				try {
